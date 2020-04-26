@@ -116,7 +116,7 @@ const scraper = async () => {
     //open a new page
     page = await browser.newPage()
     //go to the url and wait until it is loaded to continue
-    await page.goto('https://www.grants.gov/web/grants/search-grants.html', { waitUntil: 'networkidle0' })
+    await page.goto(process.env.MAIN_URL, { waitUntil: 'networkidle0' })
     //select the frame that content all data about grants
     let frame = await page.$('iframe#embeddedIframe')
 
@@ -146,7 +146,7 @@ const scraper = async () => {
     //iterate all ids if grants obtained
     for (const item of array) {
       //go to the url and wait until it is loaded to continue
-      await page.goto(`https://www.grants.gov/custom/viewOppDetails.jsp?oppId=${item.id}`, { waitUntil: 'networkidle0' })
+      await page.goto(process.env.DETAIL_URL + item.id, { waitUntil: 'networkidle0' })
       //wait for load the expected results
       await page.waitFor('#synopsisDetailsGeneralInfoTableLeft')
       //grant data
