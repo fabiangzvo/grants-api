@@ -12,6 +12,22 @@ const formatItem = (str) => {
     id: array.join('')
   }
 }
+const getDates = async (page, selector, optionalSelector, validation) => {
+  return await page.evaluate(
+    (selector, optionalSelector, validation) => {
+      try {
+        return document.querySelector(optionalSelector).textContent
+      } catch (error) {
+        elements = document.querySelectorAll(selector)
+
+        let items = [...elements].map(
+          item => (item.cells[0].innerText == validation) ? item.cells[1].innerText : null
+        )
+
+        return items.filter(text => text).join('')
+      }
+    }, selector, optionalSelector, validation)
+}
 
 const generalInformation = async (page, selector, optionaSelector, position) => {
   return await page.$eval(`${selector} > table > tbody > tr:nth-child(${position}) > td > span`,
@@ -81,8 +97,8 @@ const scraper = async () => {
       const category = await generalInformation(page, '#synopsisDetailsGeneralInfoTableLeft', '#forecastDetailsGeneralInfoTableLeft', 7)
       const cfda = await generalInformation(page, '#synopsisDetailsGeneralInfoTableLeft', '#forecastDetailsGeneralInfoTableLeft', 10)
       const matchingRequired = await generalInformation(page, '#synopsisDetailsGeneralInfoTableLeft', '#forecastDetailsGeneralInfoTableLeft', 11)
-      const postedDate = await searchValueFromText(page, '#synopsisDetailsGeneralInfoTableRight > table > tbody > tr', '#forecastDetailsGeneralInfoTableRight > table > tbody > tr', 'Posted Date:', 'Forecasted Date:')
-      const dateDue = await searchValueFromText(page, '#synopsisDetailsGeneralInfoTableRight > table > tbody > tr', '#forecastDetailsGeneralInfoTableRight > table > tbody > tr', 'Estimated Application Due Date:', 'Current Closing Date for Applications:')
+      const postedDate = await getDates(page, '#synopsisDetailsGeneralInfoTableRight > table > tbody > tr', '#forecastDetailsGeneralInfoTableRight > table > tbody > tr:nth-child(2) > td > span', 'Posted Date:')
+      const dateDue = await getDates(page, '#synopsisDetailsGeneralInfoTableRight > table > tbody > tr', '#forecastDetailsGeneralInfoTableRight > table > tbody > tr:nth-child(5) > td > span', 'Current Closing Date for Applications:')
       const totalFunding = await searchValueFromText(page, '#synopsisDetailsGeneralInfoTableRight > table > tbody > tr', '#forecastDetailsGeneralInfoTableRight > table > tbody > tr', 'Estimated Total Program Funding:')
       const awardCeiling = await searchValueFromText(page, '#synopsisDetailsGeneralInfoTableRight > table > tbody > tr', '#forecastDetailsGeneralInfoTableRight > table > tbody > tr', 'Award Ceiling:')
       const awardFloor = await searchValueFromText(page, '#synopsisDetailsGeneralInfoTableRight > table > tbody > tr', '#forecastDetailsGeneralInfoTableRight > table > tbody > tr', 'Award Floor:')
