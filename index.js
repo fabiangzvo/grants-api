@@ -14,7 +14,7 @@ app.use(cors())
 validationData()
 //routes to grants 
 grantsApi(app)
-
+//set port at server and execute function when server are running
 app.listen(config.port, () => {
   console.log(`Server listening at http://localhost:${config.port}`)
 })
