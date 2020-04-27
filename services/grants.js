@@ -12,39 +12,18 @@ class GrantsService {
     this.MongoDB = new MongoLib()
   }
   /**
-   * @function getBasicInfoGrants
-   * function in charge of obtaining a quantity
-   * of data from a limit number and an index.
-   * 
-   * the following fields are retrieved from the data:
-   * {_id,title,dataDue, agencyName, image}
-   * 
-   * @param {Number} since index from where data is obtained 
-   * @param {Number} limit límite de número de datos para obtener
+   * @function getGrants
+   * function in charge of obtaining all grants.
    * 
    * @returns {Array}
    */
-  async getBasicInfoGrants(since, limit) {
-    //fields to get
-    const query = { _id: 1, title: 1, dateDue: 1, agencyName: 1, image: 1 }
+  async getGrants() {
     //get a part of all record
-    const grants = await this.MongoDB.getAll(this.collection, query, since, limit)
+    const grants = await this.MongoDB.getAll(this.collection, query)
 
     return grants || []
   }
-  /**
-   * @function getGrant
-   * get full details of a grant since your id
-   * 
-   * @param {string} id_grant id of grant to get full details
-   * 
-   * @returns {Object}
-   */
-  async getGrant(id_grant) {
-    //get details about grant
-    const grant = await this.MongoDB.get(this.collection, id_grant)
-    return grant || {}
-  }
+
   /**
    * @function getSizeCollection
    * get size of the collection

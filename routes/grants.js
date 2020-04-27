@@ -17,17 +17,14 @@ const grantsApi = (app) => {
 
   /**
    * route to get basic info about grants collection
-   * @param {number} since passed by req.query, index from where the information is extracted 
-   * @param {number} limit passed by req.query, size of records to return 
    * 
    * @returns on success json { data,size,message }
    *          on error json {message}
    */
   router.get('/', async (req, res) => {
-    const { since, limit } = req.query
     try {
       //get basic info about a range of records
-      const grants = await grantService.getBasicInfoGrants(since, limit)
+      const grants = await grantService.getGrants()
       //get size of the collection
       const size = await grantService.getSizeCollection()
       //response success
@@ -40,33 +37,6 @@ const grantsApi = (app) => {
       //response error
       return res.status(500).json({
         message: 'Internal error'
-      })
-    }
-  })
-
-  /**
-   * route to get details about grant
-   * since your id
-   * 
-   * @param {String} idGrant passed by req.params,id of grant to get more details
-   *   
-   * @returns on success { data,message }
-   *          on error { message }
-   */
-  router.get('/detail/:idGrant', async (req, res) => {
-    const { idGrant } = req.params
-    try {
-      //get details about grant
-      const grant = await grantService.getGrant(idGrant)
-      //response success
-      return res.status(200).json({
-        data: grant,
-        message: 'grant found'
-      })
-    } catch (error) {
-      //response error
-      return res.status(500).json({
-        message: 'grant not found'
       })
     }
   })
