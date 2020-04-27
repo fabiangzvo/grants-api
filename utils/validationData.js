@@ -16,6 +16,7 @@ const validationData = async () => {
     const sizeOfCollection = await grantService.getSizeCollection()
     //check if there is data in the database
     if (sizeOfCollection < 1) {
+      console.log('execute scrapper')
       //execute script of scraping
       const grants = await scraper()
       //inserts all the data obtained from the scraping into the database
