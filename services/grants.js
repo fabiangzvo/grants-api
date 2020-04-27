@@ -19,7 +19,7 @@ class GrantsService {
    */
   async getGrants() {
     //get a part of all record
-    const grants = await this.MongoDB.getAll(this.collection, query)
+    const grants = await this.MongoDB.getAll(this.collection)
 
     return grants || []
   }
