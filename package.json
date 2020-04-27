@@ -12,6 +12,6 @@
     "puppeteer": "^3.0.1"
   },
   "scripts": {
-    "start": "NODE_ENV=development nodemon index.js "
+    "start": "NODE_ENV=production node index.js "
   }
 }
