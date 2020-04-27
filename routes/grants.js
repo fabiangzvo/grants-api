@@ -51,7 +51,7 @@ const grantsApi = (app) => {
    * @returns on success { data,message }
    *          on error { message }
    */
-  router.put('/:idGrant', async (req, res, next) => {
+  router.put('/:idGrant', async (req, res) => {
     const { idGrant } = req.params
     const { grant } = req.body
     try {
