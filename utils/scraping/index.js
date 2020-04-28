@@ -170,6 +170,7 @@ const scraper = async () => {
       const agencyContact = await generalInformation(page, '#synopsisDetailsAdditionalInfoTable', '#forecastDetailsAdditionalInfoTable', 4)
       //convert data obtained on object and add into array
       grants.push({
+        idGrant: item.id,
         opportunityNumber,
         title,
         image,

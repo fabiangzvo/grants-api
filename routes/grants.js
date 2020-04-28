@@ -29,9 +29,7 @@ const grantsApi = (app) => {
       const size = await grantService.getSizeCollection()
       //response success
       return res.status(200).json({
-        data: grants,
-        size: size,
-        message: 'Grants listed'
+        data: grants
       })
     } catch (error) {
       //response error
